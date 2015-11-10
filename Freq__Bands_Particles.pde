@@ -33,7 +33,7 @@ void setup() {
   
   minim = new Minim(this);
   // 1024 is the buffer size.  FFT's like this size. Something about power-of-two.
-  player = minim.loadFile("06-Logistics-Sparks.mp3", 1024);  
+  player = minim.loadFile("Drive_Like.mp3", 1024);  
   player.loop();
   
   fft = new FFT(player.bufferSize(), player.sampleRate());
@@ -48,32 +48,39 @@ void setup() {
 }
 
 void draw() {
-  background(99, 99, 99);  
+  // FADE EFFECT
+  // Instead of background(), draw rect() the size of the screen with an Opacity
+  fill(0, 20);
+  rect(0, 0, width, height);
+  
   
   // perform a forward FFT on the samples in jingle's mix buffer,
   // which contains the mix of both the left and right channels of the file
   fft.forward(player.mix);
   
+  float tester = 0.0;
   
   for (int i = 0; i < bpdArray.size(); i++) {
-    
+
+    // Amplifying the FFT data to be more visible
     float freqPer = (float)i/bpuArray.size();  // this is your 0.0 -> 1.0 range number
-    float sinFreqPer = sin( freqPer * 3.141592 ); // this will give you half of a full sine wave
-    //float newValue = freq[i] * sinFreqPer;
+    float sinFreqPer = sqrt(freqPer * 3.141592)*20; // this will give you half of a full sine wave
+    tester = sinFreqPer;
     
     // Draw the particles Upwards
-    bpuArray.get(i).update(color(173, 255, 47), i, (fft.getBand(i) * -1), 4, 4, i);
+    // The Y value gets multiplied by a sine wave
+    bpuArray.get(i).update(color(173, 255, 47), i, ((fft.getBand(i) * sinFreqPer) * -1), 4, 4, i);
     bpuArray.get(i).drawParticle();
     
     // Draw the Reflection particles (downwards)
     BandParticle part = bpdArray.get(i);
-    part.update(color(173, 255, 147), i, fft.getBand(i), 2, 2, i);
+    part.update(color(173, 255, 147), i, (fft.getBand(i) * sinFreqPer), 2, 2, i);
     part.drawParticle();
   }
   
   
-
-  println("Band 250: ", fft.getBand(10), "Band 260: ", fft.getBand(260));
-  println((fft.getBand(250) * -1) * sin(fft.getBand(250)));
+  println("Who Knows: ", ((fft.getBand(5) * tester) * -1));
+  println("Band 10: ", fft.getBand(10), "Band 260: ", fft.getBand(260));
+  println((fft.getBand(250) * 0.5) * sin(fft.getBand(250)));
 
 }

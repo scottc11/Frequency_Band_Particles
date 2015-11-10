@@ -30,6 +30,8 @@ class BandParticle {
   
   // creating a method.  Must use 'void' if the method doesn't return anything.
   void drawParticle() {
+
+    
     fill(particleColor);
     noStroke();
     ellipse(locX, locY, sizeX, sizeY);
