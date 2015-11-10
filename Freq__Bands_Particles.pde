@@ -33,7 +33,7 @@ void setup() {
   
   minim = new Minim(this);
   // 1024 is the buffer size.  FFT's like this size. Something about power-of-two.
-  player = minim.loadFile("Drive_Like.mp3", 1024);  
+  player = minim.loadFile("Bass_Filtering_Sample.mp3", 1024);  
   player.loop();
   
   fft = new FFT(player.bufferSize(), player.sampleRate());
@@ -62,7 +62,7 @@ void draw() {
   
   for (int i = 0; i < bpdArray.size(); i++) {
 
-    // Amplifying the FFT data to be more visible
+    // Using the shape of a Sine Wave to amplify the FFT data to be more visible
     float freqPer = (float)i/bpuArray.size();  // this is your 0.0 -> 1.0 range number
     float sinFreqPer = sqrt(freqPer * 3.141592)*20; // this will give you half of a full sine wave
     tester = sinFreqPer;
