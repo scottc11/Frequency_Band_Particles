@@ -50,7 +50,7 @@ void setup() {
 void draw() {
   // FADE EFFECT
   // Instead of background(), draw rect() the size of the screen with an Opacity
-  fill(0, 20);
+  fill(0);
   rect(0, 0, width, height);
   
   
@@ -69,7 +69,8 @@ void draw() {
     
     // Draw the particles Upwards
     // The Y value gets multiplied by a sine wave
-    bpuArray.get(i).update(color(173, 255, 47), i, ((fft.getBand(i) * sinFreqPer) * -1), 4, 4, i);
+    bpuArray.get(i).update(color(173, 255, 47), i, ((fft.getBand(i) * sinFreqPer)*-1 ), 4, 4, i);
+    //bpuArray.get(i).update(color(173, 255, 47), i, (float)Math.log(Math.log(fft.getBand(i)))*-1, 4, 4, i);
     bpuArray.get(i).drawParticle();
     
     // Draw the Reflection particles (downwards)
